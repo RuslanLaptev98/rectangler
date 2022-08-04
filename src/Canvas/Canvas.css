@@ -1,0 +1,12 @@
+.Canvas {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas {
+  border: 2px solid #5bc197;
+  border-radius: 8px;
+  background-color: #192127;
+  cursor: pointer;
+}
