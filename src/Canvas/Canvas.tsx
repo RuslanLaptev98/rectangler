@@ -1,6 +1,6 @@
 import React from 'react';
 import './Canvas.css';
-import rough from 'roughjs/bundled/rough.esm';
+import rough from 'roughjs';
 import {
   chooseColor,
   createLine,
@@ -15,22 +15,24 @@ import {
 const Canvas: React.FC = () => {
   const generator = rough.generator();
 
-  const canvasRef = React.useRef(null);
+  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
-  const [rectangles, setRectangles] = React.useState([]);
-  const [lines, setLines] = React.useState([]);
+  const [rectangles, setRectangles] = React.useState<any[]>([]);
+  const [lines, setLines] = React.useState<any[]>([]);
   const [isDrawing, setIsDrawing] = React.useState(false);
   const [color, setColor] = React.useState('#5bc197');
 
   React.useEffect(() => {
     // Setting canvas and context
     const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    const roughCanvas = rough.canvas(canvas);
+    if (canvas !== null) {
+      const context = canvas.getContext('2d');
+      context?.clearRect(0, 0, canvas.width, canvas.height);
+      const roughCanvas = rough.canvas(canvas);
 
-    // Drawing lines
-    lines.forEach((line) => roughCanvas.draw(line.roughLine));
+      // Drawing lines
+      lines.forEach((line) => roughCanvas.draw(line.roughLine));
+    }
 
     // Combining 4 lines into rectangle
     combineLinesIntoRectangle(
@@ -46,8 +48,10 @@ const Canvas: React.FC = () => {
   }, [lines, isDrawing]);
 
   React.useEffect(() => {
-    const roughCanvas = rough.canvas(canvasRef.current);
-    rectangles.forEach((rectangle) => roughCanvas.draw(rectangle));
+    if (canvasRef.current !== null) {
+      const roughCanvas = rough.canvas(canvasRef.current);
+      rectangles.forEach((rectangle) => roughCanvas.draw(rectangle));
+    }
   });
 
   return (

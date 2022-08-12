@@ -1,13 +1,28 @@
+import { RoughGenerator } from 'roughjs/bin/generator';
 import { setCursorPosition } from './functions';
+import { Drawable } from 'roughjs/bin/core';
 
 export const handleMouseDown = (
-  event,
-  generator,
-  canvasRef,
-  color,
-  setIsDrawing,
-  setLines,
-  createLine
+  event: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
+  generator: RoughGenerator,
+  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>,
+  color: string,
+  setIsDrawing: React.Dispatch<React.SetStateAction<boolean>>,
+  setLines: React.Dispatch<React.SetStateAction<any[]>>,
+  createLine: (
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
+    color: string,
+    generator: RoughGenerator
+  ) => {
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
+    roughLine: Drawable;
+  }
 ) => {
   setIsDrawing(true);
 
@@ -26,14 +41,27 @@ export const handleMouseDown = (
 };
 
 export const handleMouseMove = (
-  event,
-  generator,
-  canvasRef,
-  color,
-  isDrawing,
-  lines,
-  setLines,
-  createLine
+  event: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
+  generator: RoughGenerator,
+  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>,
+  color: string,
+  isDrawing: boolean,
+  lines: any[],
+  setLines: React.Dispatch<React.SetStateAction<any[]>>,
+  createLine: (
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
+    color: string,
+    generator: RoughGenerator
+  ) => {
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
+    roughLine: Drawable;
+  }
 ) => {
   if (!isDrawing) return;
 
@@ -58,6 +86,8 @@ export const handleMouseMove = (
   setLines(linesCopy);
 };
 
-export const handleMouseUp = (setIsDrawing) => {
+export const handleMouseUp = (
+  setIsDrawing: React.Dispatch<React.SetStateAction<boolean>>
+) => {
   setIsDrawing(false);
 };
